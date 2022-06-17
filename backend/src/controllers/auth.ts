@@ -3,6 +3,8 @@ import {PrismaClient} from "@prisma/client"
 import bcrypt from "bcryptjs"
 import {v4 } from "uuid"
 import jwt from "jsonwebtoken"
+import {expressjwt} from "express-jwt"
+// import { isSignedIn } from './auth';
 const prisma = new PrismaClient();
 
 
@@ -46,6 +48,22 @@ export const signin= async (req:Request,res:Response)=>{
     res.status(200).json({success:"SignIn Successfully",token})
 }
 
+// export const isSignedIn=(req:Request,res:Response)=>{
+//      const token=req.cookies.token;
+//      if(!token){
+//         return res.status(401).json({error:"Token not found"})
+//      }
+//      console.log(token)
+//      return expressjwt({ secret: process.env.SECRET!, algorithms: ["HS256"],getToken:token })
+// }
+// const getTOken=(req:Request,res:Response)
+
+export const isSignedIn=expressjwt({ secret: process.env.SECRET!, algorithms: ["HS256"],getToken:(req)=>{
+    if(req.cookies.token){
+        return req.cookies.token
+    }
+    return null
+} })
 //hashing password sychrousnly  
 export const generatHash=(password:string):string=>{
     

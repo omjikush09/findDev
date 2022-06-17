@@ -1,8 +1,11 @@
 import express, { Request,Response }  from  "express";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import authRoutes from "./routes/auth";
+import 'dotenv/config';
+import cookieParser from "cookie-parser"
 const app=express();
-
+app.use(cookieParser())
 const options={
     swaggerDefinition:{
        
@@ -25,7 +28,8 @@ const swaggerSpecification= swaggerJSDoc(options);
  *         description: Returns string
  * 
  */
-
+app.use(express.json());
+app.use("/api",authRoutes)
 
 app.get("/",(req:Request,res:Response)=>{
     return res.send("hello")

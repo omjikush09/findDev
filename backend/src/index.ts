@@ -1,13 +1,15 @@
 import express, { Request,Response }  from  "express";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-import 'dotenv/config';
+// import 'dotenv/config';
 import cookieParser from "cookie-parser"
 const app=express();
 import authRoutes from "./routes/auth";
 import userRoutes from "./routes/user"
-
-
+import  passport  from 'passport';
+import "./service/passport"
+import { GOOGLE_KEY,SERVER_URL,JWT_SECRET } from "./config.keys";
+console.log(GOOGLE_KEY.clientID)
 
 
 
@@ -38,7 +40,7 @@ app.use(express.json());
 //Routes
 app.use("/api",authRoutes)
 app.use("/api",userRoutes)
-
+app.use(passport.initialize())
 app.get("/",(req:Request,res:Response)=>{
     return res.send("hello")
 })

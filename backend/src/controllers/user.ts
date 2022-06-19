@@ -10,5 +10,6 @@ export const getUser=async(req:Request,res:Response)=>{
         }
     })
 
-    return res.json({user})
+    return res.redirect("/hello")
 }
+

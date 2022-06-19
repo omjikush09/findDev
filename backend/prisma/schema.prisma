@@ -13,7 +13,7 @@ datasource db {
 model User {
   id String @id 
   email String @unique
-  password String 
+  password String? 
   profile String?
   name String?
   social Json?

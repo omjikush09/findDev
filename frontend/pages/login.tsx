@@ -11,9 +11,9 @@ const Login:NextPage =()=>{
       email:"tffffwf@at.com",
       password:"satat"
     })
-  const handleClick=(e:React.MouseEvent<HTMLButtonElement>)=>{
+  const handleClick=(e:React.MouseEvent<HTMLButtonElement>,type:string)=>{
       e.preventDefault();
-      window.open(`${SERVER_URL}/api/auth/${"google"}`,"_self");
+      window.open(`${SERVER_URL}/api/auth/${type}`,"_self");
   }
   const handleChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
     setValues({...values,[e.target.name]:e.target.value})
@@ -27,7 +27,8 @@ const submit=async (e:React.FormEvent)=>{
   console.log(user,"submit")
 }
   return( <div>
-    <button onClick={handleClick}>sign in with google</button>
+    <button onClick={(e)=>handleClick(e,"google")}>sign in with google</button>
+    <button onClick={(e)=>handleClick(e,"github")}>sign in with github</button>
     <form onSubmit={submit}>
       <input type="text" value={values.email} onChange={handleChange} name="email" />
       <input type="text" value={values.password} onChange={handleChange} name="password" />

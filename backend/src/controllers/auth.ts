@@ -75,7 +75,7 @@ export const generatHash=(password:string):string=>{
 
 
 
-export const loginFacebook = function (req:Request, res:Response, next:CallableFunction) {
+export const loginGoogle = function (req:Request, res:Response, next:CallableFunction) {
     passport.authenticate('google', { session: false }, (err, user, info) => {
       // Decide what to do on authentication
       if (err || !user) {
@@ -94,6 +94,25 @@ export const loginFacebook = function (req:Request, res:Response, next:CallableF
     })(req, res, next)
 }
 
+export const loginGithub = function (req:Request, res:Response, next:CallableFunction) {
+    passport.authenticate('github', { session: false }, (err, user, info) => {
+      // Decide what to do on authentication
+      console.log(err)
+      if (err || !user) {
+        return res.redirect(process.env.CLIENT_URL + '/login?error=' + info.message)
+      }
+      req.login(user, { session: false }, (err:any) => {
+        if (err) {
+          res.status(400).send({ err });
+        }
+        var payload = { id: user.id }
+        const token = jwt.sign(payload,JWT_SECRET,{ expiresIn: 60 * 60 *60});
+        var cookiePayload =   {token }
+        res.cookie('token', token,{httpOnly:true,  expires: new Date(Date.now() + 90000000),domain:"localhost"});
+        res.redirect(process.env.CLIENT_URL + '/loginsuccess')
+      })
+    })(req, res, next)
+}
 
 
 

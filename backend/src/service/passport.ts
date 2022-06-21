@@ -1,8 +1,9 @@
-import passport from "passport";
+import passport, { Profile } from "passport";
 import { Request } from "express";
 import {Strategy as GoogleStrategy }from "passport-google-oauth20"
+import {Strategy as GitHubStrategy} from "passport-github2"
 import passportJWT from "passport-jwt"
-import { GOOGLE_KEY,SERVER_URL,JWT_SECRET } from "../config.keys";
+import { GOOGLE_KEY,SERVER_URL,JWT_SECRET ,GITHUB_KEY} from "../config.keys";
 import {PrismaClient} from "@prisma/client"
 import {v4 } from "uuid"
 const prisma = new PrismaClient();
@@ -20,6 +21,7 @@ const cookieExtractor = function(req:Request) {
     }
     return token;
 };
+//Extract jwt and append user
 passport.use('jwt', new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
     secretOrKey: process.env.JWT_SECRET // Specify a JWT secret in .env file
@@ -41,7 +43,7 @@ passport.use('jwt', new JWTStrategy({
   ));
 
 
-
+//Google Strategy
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_KEY.clientID,
     clientSecret: GOOGLE_KEY.clientSecret,
@@ -83,3 +85,45 @@ passport.use(new GoogleStrategy({
   }
 ));
 
+
+
+//Githhub Strategy
+passport.use(new GitHubStrategy({
+    clientID: GITHUB_KEY.clientId,
+    clientSecret: GITHUB_KEY.clientSecret,
+    callbackURL: `${SERVER_URL}/api/auth/github/callback`,
+    scope:["user:email"]
+  },
+  async function(accessToken:string, refreshToken:string, profile:any, cb:any) {
+    console.log(profile)
+   try {
+    if(!profile.emails[0].value){
+        return cb(null,false,{message:"Google Acccout is not registerd with email. Please sign in with other account"})
+    }
+    const userUnique=await prisma.user.findUnique({
+        where:{email:profile.emails[0].value}
+    })
+
+    if((userUnique?.signup!="GITHUB" && userUnique !=null)){
+        console.log(userUnique)
+        return cb(null,false,{message:"User is already registred with other method"})
+    }
+    if(!userUnique){
+       const user= await prisma.user.create({
+            data:{
+                email:profile.emails[0].value,
+                id:v4(),
+                salt:"d",
+                signup:"GITHUB",
+                profile:profile._json.avatar_url
+                 }
+        })
+        cb(null,user)
+    }else{
+        cb(null,userUnique)
+    }
+   } catch (error) {
+    return cb(null,false,{message:"unknown error"})
+   }
+  }
+));

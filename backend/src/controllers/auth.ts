@@ -46,27 +46,24 @@ export const signin= async (req:Request,res:Response)=>{
         return res.status(401).json({error:"Email and password deos not match"})
     }
     const secret=process.env.SECRET!
-    const token=jwt.sign({userId:user.id},secret, { expiresIn: 60 * 60 })
-    res.cookie('token',token,{httpOnly:true})
+    const token=jwt.sign({id:user.id},secret, { expiresIn: 60 * 60 *60})
+    res.cookie('token',token)
+    console.log("in signin")
     res.status(200).json({success:"SignIn Successfully",token})
 }
 
-// export const isSignedIn=(req:Request,res:Response)=>{
-//      const token=req.cookies.token;
-//      if(!token){
-//         return res.status(401).json({error:"Token not found"})
-//      }
-//      console.log(token)
-//      return expressjwt({ secret: process.env.SECRET!, algorithms: ["HS256"],getToken:token })
-// }
+export const isSignedIn=passport.authenticate("jwt",{session:false})
+   
+
 // const getTOken=(req:Request,res:Response)
 
-export const isSignedIn=expressjwt({ secret: process.env.SECRET!, algorithms: ["HS256"],getToken:(req)=>{
-    if(req.cookies.token){
-        return req.cookies.token
-    }
-    return null
-} })
+// export const isSignedIn=expressjwt({ secret: process.env.SECRET!, algorithms: ["HS256"],getToken:(req)=>{
+//     if(req.cookies.token){
+//         return req.cookies.token
+//     }
+//     return null
+// } })
+
 //hashing password sychrousnly  
 export const generatHash=(password:string):string=>{
     
@@ -89,10 +86,10 @@ export const loginFacebook = function (req:Request, res:Response, next:CallableF
           res.status(400).send({ err });
         }
         var payload = { id: user.id }
-        const token = jwt.sign(payload,JWT_SECRET);
+        const token = jwt.sign(payload,JWT_SECRET,{ expiresIn: 60 * 60 *60});
         var cookiePayload =   {token }
-        res.cookie('auth', JSON.stringify(cookiePayload), { domain: process.env.DOMAIN_NAME });
-        res.redirect(process.env.CLIENT_URL + '/')
+        res.cookie('token', token,{httpOnly:true,  expires: new Date(Date.now() + 90000000),domain:"localhost"});
+        res.redirect(process.env.CLIENT_URL + '/loginsuccess')
       })
     })(req, res, next)
 }

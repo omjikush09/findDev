@@ -1,9 +1,8 @@
-import dotenv from "dotenv"
-dotenv.config();
+import 'dotenv/config';
 
 export const GOOGLE_KEY={
         clientID:process.env.GOOGLE_CLIENT_ID ||  " ",
-        clientSecret:process.env. GOOGLE_CLIENT_SECRET || " "
+        clientSecret:process.env.GOOGLE_CLIENT_SECRET || " "
 }
 
 export const SERVER_URL=process.env.SERVER_URL || " "

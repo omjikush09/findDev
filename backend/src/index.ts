@@ -1,17 +1,21 @@
 import express, { Request,Response }  from  "express";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-// import 'dotenv/config';
 import cookieParser from "cookie-parser"
 const app=express();
 import authRoutes from "./routes/auth";
 import userRoutes from "./routes/user"
 import  passport  from 'passport';
+import cors from "cors"
 import "./service/passport"
 import { GOOGLE_KEY,SERVER_URL,JWT_SECRET } from "./config.keys";
 console.log(GOOGLE_KEY.clientID)
+console.log(SERVER_URL)
 
-
+app.use(cors({
+    origin:"http://localhost:3000",
+    credentials: true,
+}))
 
 app.use(cookieParser())
 const options={

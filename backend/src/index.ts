@@ -8,12 +8,12 @@ import userRoutes from "./routes/user"
 import  passport  from 'passport';
 import cors from "cors"
 import "./service/passport"
-import { GOOGLE_KEY,SERVER_URL,JWT_SECRET } from "./config.keys";
+import { GOOGLE_KEY,SERVER_URL,JWT_SECRET,CLIENT_URL } from "./config.keys";
 console.log(GOOGLE_KEY.clientID)
 console.log(SERVER_URL)
 
 app.use(cors({
-    origin:"http://localhost:3000",
+    origin:CLIENT_URL,
     credentials: true,
 }))
 

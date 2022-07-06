@@ -10,7 +10,7 @@ import { Container, Grid,  Typography } from '@mui/material';
 
 //Import Component
 import LoginForm from '../conponents/LoginForm';
-const Login:NextPage =()=>{
+const Signin:NextPage =()=>{
 
   
   return( <>
@@ -21,10 +21,10 @@ const Login:NextPage =()=>{
   /> */}
 
     </Head>
-    
+
     <Container maxWidth={false} className={styles.container}>
     <div  className={styles.container_small}>
-    <Typography variant='h2' component="h2" align='center'>
+        <Typography variant='h2' component="h2" align='center'>
            FIND DEV
         </Typography>
       <Grid container >
@@ -32,7 +32,7 @@ const Login:NextPage =()=>{
 ddfsd
         </Grid> */}
       <Grid item xs={12} >
-        <LoginForm heading='Create Account'  content='or register using Email' submitType='signup'/>
+        <LoginForm heading='Login'  content='or Login using Email' submitType='signin'/>
         
          </Grid>
   
@@ -43,7 +43,7 @@ ddfsd
   )
 } 
   
-  export default Login
+  export default Signin;
 
 
 

@@ -3,51 +3,32 @@
 // }
 
 .container{
-    display: flex;
+    display: flex !important;
     justify-content: center;
     align-items: center;
     height: 100vh;
     min-height: 40rem;
+    // width: 100%;
+    background-color: rgba($color: #ecdede, $alpha: 1.0);
     &_small{
+        background-color: rgba(85, 91, 103, 0.167);
         // margin: 8rem;
         height: 40rem;
-        padding: 5rem;
-        max-height: fit-content;
-        width: 80%;
+        padding: 3rem 5rem;
+        min-height: max-content;
+        // max-height: fit-content;
+        width: 60%;
         min-width: 50rem;
+        border-radius: 10px;
         // display:flex;
         // align-items: center;
         // justify-content: center;
-        background-color:#fff;
-        box-shadow: 0px  0px 50px 15px rgba(0,0,0, .1);
+        // background-color:#fff;
+        box-shadow: 0px  0px 50px 15px rgba(0, 0, 0, 0.829);
     }
   
 }
 // .btn-color{
 //     color:blue;
 // }
-.social{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 2rem 0;
-    // height: rem;
-    // justify-content: space-between;
-}
 
-.form{
-    margin: 2rem 2rem;
-    display: flex;
-    height: fit-content;
-    justify-content: space-around;
-    align-items: center;
-    height: 15rem;
-    flex-direction: column;
-    &_input{
-        border: none;
-        margin: 1rem 0;
-        width: 80%;
-        height: 2.5rem;
-        border-radius: 100px;
-    }
-}

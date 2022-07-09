@@ -1,7 +1,7 @@
 export {};
 
 interface auth{
-  userId:string
+  id:string
 }
 
 declare global {
@@ -10,6 +10,13 @@ declare global {
       email: string;
       password:string;
       auth:auth
+     
+      
     }
+    interface User {
+      // *username:string;
+      // yourVariable: any;
+      id?:string
+  }
   }
 }

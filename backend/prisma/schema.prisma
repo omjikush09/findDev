@@ -18,11 +18,15 @@ model User {
   name String?
   social Json?
   salt String
+  description String?
+  profession String?
   signup SignupType 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+ 
 
 }
+
 
 
 enum SignupType{

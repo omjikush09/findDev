@@ -23,10 +23,11 @@ const Signin:NextPage =()=>{
     </Head>
 
     <Container maxWidth={false} className={styles.container}>
-    <div  className={styles.container_small}>
-        <Typography variant='h2' component="h2" align='center'>
+    <Typography variant='h2' component="h2" align='center'>
            FIND DEV
-        </Typography>
+    </Typography>
+    <div  className={styles.container_small}>
+        
       <Grid container >
       {/* <Grid item xs={6} >
 ddfsd
@@ -35,7 +36,7 @@ ddfsd
         <LoginForm heading='Login'  content='or Login using Email' submitType='signin'/>
         
          </Grid>
-  
+        
           </Grid>
       </div>
         </Container>

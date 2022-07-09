@@ -11,6 +11,9 @@ import {JWT_SECRET } from "../config.keys";
 const prisma = new PrismaClient();
 
 
+
+
+
 export const  Signup = async (req:Request,res:Response)=>{
     console.log(req.body.email)
     const allUser=await prisma.user.findUnique({

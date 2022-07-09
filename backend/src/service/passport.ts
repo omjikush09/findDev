@@ -31,14 +31,15 @@ passport.use('jwt', new JWTStrategy({
       // find the user in db if needed.
       // This functionality may be omitted if you store everything you'll need in JWT payload.
       console.log(jwtPayload)
-       const user= await prisma.user.findUnique({
+       const auth= await prisma.user.findUnique({
             where:{
                 id:jwtPayload.id
             }
         })
         // req.user=user
     //  console.log(user)
-      return done(null, user);
+    // req.auth=auth
+      return done(null, auth);
     }
   ));
 
@@ -53,7 +54,7 @@ passport.use(new GoogleStrategy({
     console.log(profile)
    try {
     if(!profile._json.email){
-        return cb(null,false,{message:"Google Acccout is not registerd with emai. Please sign in with other account"})
+        return cb(null,undefined,{message:"Google Acccout is not registerd with emai. Please sign in with other account"}) // changed false to undefined
     }
     const userUnique=await prisma.user.findUnique({
         where:{email:profile._json.email}
@@ -61,7 +62,7 @@ passport.use(new GoogleStrategy({
 
     if((userUnique?.signup!="GOOGLE" && userUnique !=null)){
         console.log(userUnique)
-        return cb(null,false,{message:"User is already registred with other method"})
+        return cb(null,undefined,{message:"User is already registred with other method"}) // changed false to undefined
     }
     if(!userUnique){
        const user= await prisma.user.create({
@@ -79,7 +80,7 @@ passport.use(new GoogleStrategy({
         cb(null,userUnique)
     }
    } catch (error) {
-    return cb(null,false,{message:"unknown error"})
+    return cb(null,undefined,{message:"unknown error"}) // changed false to undefined
    }
     
   }

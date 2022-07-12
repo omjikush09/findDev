@@ -11,25 +11,41 @@ datasource db {
 }
 
 model User {
-  id String @id 
-  email String @unique
-  password String? 
-  profile String?
-  name String?
-  social Json?
-  salt String
+  id          String     @id
+  email       String     @unique
+  password    String?
+  profile     String?
+  name        String?
+  social      Json?
+  salt        String
   description String?
-  profession String?
-  signup SignupType 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
- 
+  profession  String?
+  signup      SignupType
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+
+  Language Language[]
+}
+
+model Language {
+  id         Int     @id @default(autoincrement())
+  cpp        Boolean @default(false)
+  java       Boolean @default(false)
+  javascript Boolean @default(false)
+  golang     Boolean @default(false)
+  ruby       Boolean @default(false)
+  python     Boolean @default(false)
+  sql        Boolean @default(false)
+  csharp     Boolean @default(false)
+  user       User    @relation(fields: [userId], references: [id])
+  userId     String @unique
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
 }
 
-
-
-enum SignupType{
+enum SignupType {
   GOOGLE
   GITHUB
   CUSTOM

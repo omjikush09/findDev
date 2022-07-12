@@ -71,3 +71,32 @@ export const hello=(req:Request,res:Response,next:CallableFunction)=>{
     next()
     // res.send("middlreware")
 }
+
+
+//upadate lanuage
+export const updateUserLanguage=async (req:Request,res:Response)=>{
+    const userId=req.user?.id 
+    const body =req.body;
+    try {
+        const language= await prisma.language.update({
+            where:{
+                userId
+            },
+        data:body,
+    })
+    // console.log(language)
+    return res.json(language)
+ } catch (error) {
+    console.log("he")
+    try {
+        const language= await prisma.language.create({
+        
+        data:{...body,userId},
+    })
+    return res.json(language)
+    } catch (error) {
+        
+        return res.status(400).json({error});
+    }
+    }
+}

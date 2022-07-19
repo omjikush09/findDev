@@ -4,7 +4,8 @@ import swaggerUi from "swagger-ui-express";
 import cookieParser from "cookie-parser"
 const app=express();
 import authRoutes from "./routes/auth";
-import userRoutes from "./routes/user"
+import userRoutes from "./routes/user";
+import languageRoutes from "./routes/language";
 import  passport  from 'passport';
 import cors from "cors"
 import "./service/passport"
@@ -44,6 +45,7 @@ app.use(express.json());
 //Routes
 app.use("/api",authRoutes)
 app.use("/api",userRoutes)
+app.use("/api",languageRoutes)
 app.use(passport.initialize())
 app.get("/",(req:Request,res:Response)=>{
     return res.send("hello")

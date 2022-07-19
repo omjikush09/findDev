@@ -32,7 +32,7 @@ export const  Signup = async (req:Request,res:Response)=>{
             signup:"CUSTOM"
         }
     })
-    return res.send("hello")
+    return res.status(200).json({success:"Signup Successfully"})
 }
 
 export const signin= async (req:Request,res:Response)=>{
@@ -48,11 +48,11 @@ export const signin= async (req:Request,res:Response)=>{
     if(!check){
         return res.status(401).json({error:"Email and password deos not match"})
     }
-    const secret=process.env.SECRET!
-    const token=jwt.sign({id:user.id},secret, { expiresIn: 60 * 60 *60})
+    // const secret=process.env.SECRET!
+    const token=jwt.sign({id:user.id},JWT_SECRET, { expiresIn: 60 * 60 *60})
     res.cookie('token',token)
     console.log("in signin")
-    res.status(200).json({success:"SignIn Successfully",token})
+    return res.status(200).json({success:"SignIn Successfully",token,user})
 }
 
 export const isSignedIn=passport.authenticate("jwt",{session:false})

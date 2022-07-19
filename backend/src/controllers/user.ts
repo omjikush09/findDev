@@ -41,7 +41,7 @@ export const updateProfile=async (req:Request,res:Response)=>{
 export const getAllUsers=async (req:Request,res:Response)=>{
 
     const query=req.query
-    const profession=query.profession?String(query.profession):undefined
+    const profession= query.profession=="student"? "student":"working" 
     console.log(profession)
     // console.log(query)
 
@@ -95,8 +95,9 @@ export const updateUserLanguage=async (req:Request,res:Response)=>{
     })
     return res.json(language)
     } catch (error) {
-        
+        console.log(error)
         return res.status(400).json({error});
     }
     }
 }
+
